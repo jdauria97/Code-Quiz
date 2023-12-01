@@ -13,7 +13,7 @@ var timerDisplay = document.querySelector('#time');
 var currentQuestion = 0
 var score = 0
 
-var selectedAnswer = document.body.children[4].children[1].a;
+// var selectedAnswer = document.body.children[4].children[1].a;
 var question = document.querySelector("#questions");
 var options = document.querySelector("#options");
 
@@ -69,7 +69,7 @@ function displayQuestion () {
         choice.type = "button";
         choice.name = "answer";
         choice.value = i;
-
+        choice.addEventListener("click", checkAnswer)
         choiceLabel.textContent = questionList[currentQuestion].a[i].text;
 
         choiceDiv.appendChild(choice);
@@ -87,12 +87,14 @@ function nextQuestion () {
     }
 }
 
-function checkAnswer () {
-    var chosenAnswer = parseInt(document.querySelector('input[name="a"]:checked').value);
+function checkAnswer (event) {
+    event.preventDefault()
+    var chosenAnswer = event.target.value
     if (questionList[currentQuestion].a[chosenAnswer].isCorrect) {
         console.log("correct")
         nextQuestion();
     } else {
+        timeLeft -= 10;
         nextQuestion();
     }
 }
@@ -133,9 +135,9 @@ viewScrBtn.addEventListener("click", function() {
     console.log("view score button works")
 });
 
-selectedAnswer.addEventListener("click", function() {
-    console.log("selected answer");
-})
+// selectedAnswer.addEventListener("click", function() {
+//     console.log("selected answer");
+// })
 
 // user presses submit high-score button
 
