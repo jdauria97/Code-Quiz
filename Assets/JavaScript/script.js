@@ -1,23 +1,23 @@
 // DEPENDENCIES
 
-// start button
+// dependencies for main page
 var startBtn = document.querySelector('#startBtn');
-//view high-score button
 var viewScrBtn = document.querySelector('#viewHighScrBtn');
-// timer display
 var timerDisplay = document.querySelector('#time');
-//submit high-score button
-
-//reset high-score button
-
 var currentQuestion = 0
 var score = 0
-
-// var selectedAnswer = document.body.children[4].children[1].a;
 var question = document.querySelector("#questions");
 var options = document.querySelector("#options");
-
 var timeLeft = 60;
+
+// dependencies for scoreboard page
+
+var scoreInput
+var initialsInput
+var submitBtn
+var resetBtn
+
+
 
 // DATA
 
@@ -47,12 +47,6 @@ var questionList = [{
     ]
 },
 ];
-
-
-
-// score
-
-// high-scores 
 
 
 
@@ -136,10 +130,6 @@ startBtn.addEventListener("click", function() {
 viewScrBtn.addEventListener("click", function() {
     console.log("view score button works")
 });
-
-// selectedAnswer.addEventListener("click", function() {
-//     console.log("selected answer");
-// })
 
 // user presses submit high-score button
 
