@@ -113,7 +113,7 @@ function startGame () {
     function loadScoreboard () {
         clearInterval(timeInterval);
         scoreInfo.textContent = "Your score is: " + timeLeft + "!";
-        // document.body.innerHTML = "";
+        document.body.innerHTML = "";
         body.appendChild(h1El);
         body.appendChild(scoreInfo);
     
