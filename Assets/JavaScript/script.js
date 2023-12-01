@@ -17,6 +17,8 @@ var score = 0
 var question = document.querySelector("#questions");
 var options = document.querySelector("#options");
 
+var timeLeft = 60;
+
 // DATA
 
 // list of questions
@@ -95,18 +97,11 @@ function checkAnswer (event) {
         nextQuestion();
     } else {
         timeLeft -= 10;
-        nextQuestion();
     }
 }
 
-
-function startGame () {
-    displayQuestion ();
-    startTimer();
-}
-
 function startTimer () {
-    var timeLeft = 60;
+    
     var timeInterval = setInterval( function() {
         if (timeLeft >= 1) {
             timerDisplay.textContent = timeLeft;
@@ -117,6 +112,12 @@ function startTimer () {
         }
     }, 1000);
 }
+
+function startGame () {
+    displayQuestion ();
+    startTimer();
+}
+
 
 function loadScoreboard () {
     console.log("score")
