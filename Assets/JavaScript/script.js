@@ -2,7 +2,6 @@
 
 // dependencies for main page
 var startBtn = document.querySelector('#startBtn');
-var viewScrBtn = document.querySelector('#viewHighScrBtn');
 var timerDisplay = document.querySelector('#time');
 var currentQuestion = 0
 var score = 0
@@ -13,14 +12,16 @@ var timeLeft = 60;
 // dependencies for scoreboard page
 
 var scoreInput
-var initialsInput
-var submitBtn
+var initialsInput = document.createElement('input');
+initialsInput.setAttribute('type', 'text');
+initialsInput.placeholder = "Enter your initials."
+var submitBtn = document.createElement('button');
+submitBtn.textContent = 'Submit Score';
 var resetBtn
 var body = document.body;
 var h1El = document.createElement("h1");
 var scoreInfo = document.createElement("div");
 var lastScore = document.createElement("div");
-
 h1El.textContent = "High-Score List";
 
 
@@ -55,6 +56,7 @@ var questionList = [{
 ];
 
 
+// FUNCTIONS
 
 function startGame () {
     function displayQuestion () {
@@ -98,8 +100,7 @@ function startGame () {
             timeLeft -= 10;
         }
     }
-    
-        
+            
     var timeInterval = setInterval( function() {
         if (timeLeft >= 0) {
             timerDisplay.textContent = timeLeft;
@@ -112,17 +113,24 @@ function startGame () {
     
     function loadScoreboard () {
         clearInterval(timeInterval);
-        scoreInfo.textContent = "Your score is: " + timeLeft + "!";
+        lastScore.textContent = "Your score is: " + timeLeft + "!";
         document.body.innerHTML = "";
         body.appendChild(h1El);
-        body.appendChild(scoreInfo);
+        body.appendChild(lastScore);
+        body.appendChild(initialsInput);
+        body.appendChild(submitBtn);
+        submitBtn.addEventListener("click", function(event) {
+            event.preventDefault();
+            if (initialsInput === "") {
+                alert("Please enter your initials to save score.")
+            } else {
+                localStorage.setItem("Initials", initialsInput.value);
+                localStorage.setItem("Score", timeLeft);
+            }
+        })
+        
     
     }
-
-    viewScrBtn.addEventListener("click", function() {
-        console.log("view score button works")
-        loadScoreboard();
-    });
 
     displayQuestion ();
     
@@ -136,11 +144,3 @@ startBtn.addEventListener("click", function() {
     console.log("start button works")
     startGame ();
 });
-
-// user presses view high-score button
-
-
-// user presses submit high-score button
-
-
-// user presses reset high-score button
