@@ -16,6 +16,12 @@ var scoreInput
 var initialsInput
 var submitBtn
 var resetBtn
+var body = document.body;
+var h1El = document.createElement("h1");
+var scoreInfo = document.createElement("div");
+var lastScore = document.createElement("div");
+
+h1El.textContent = "High-Score List";
 
 
 
@@ -50,54 +56,52 @@ var questionList = [{
 
 
 
-// FUNCTIONS
+function startGame () {
+    function displayQuestion () {
 
-function displayQuestion () {
-
-    question.textContent = questionList[currentQuestion].q;
-    options.innerHTML = "";
-
-    for (let i = 0; i < questionList[currentQuestion].a.length; i++) {
-        var choiceDiv = document.createElement("div");
-        var choice = document.createElement("input");
-        var choiceLabel = document.createElement("label");
-
-        choice.type = "button";
-        choice.name = "answer";
-        choice.value = i;
-        choice.addEventListener("click", checkAnswer)
-        choiceLabel.textContent = questionList[currentQuestion].a[i].text;
-
-        choiceDiv.appendChild(choice);
-        choiceDiv.appendChild(choiceLabel);
-        options.appendChild(choiceDiv);
-    }
-}
-
-function nextQuestion () {
-    if (currentQuestion < questionList.length - 1) {
-        currentQuestion++;
-        displayQuestion ();
-    } else {
-        loadScoreboard();
-    }
-}
-
-function checkAnswer (event) {
-    event.preventDefault()
-    var chosenAnswer = event.target.value
-    if (questionList[currentQuestion].a[chosenAnswer].isCorrect) {
-        console.log("correct")
-        nextQuestion();
-    } else {
-        timeLeft -= 10;
-    }
-}
-
-function startTimer () {
+        question.textContent = questionList[currentQuestion].q;
+        options.innerHTML = "";
     
+        for (let i = 0; i < questionList[currentQuestion].a.length; i++) {
+            var choiceDiv = document.createElement("div");
+            var choice = document.createElement("input");
+            var choiceLabel = document.createElement("label");
+    
+            choice.type = "button";
+            choice.name = "answer";
+            choice.value = i;
+            choice.addEventListener("click", checkAnswer)
+            choiceLabel.textContent = questionList[currentQuestion].a[i].text;
+    
+            choiceDiv.appendChild(choice);
+            choiceDiv.appendChild(choiceLabel);
+            options.appendChild(choiceDiv);
+        }
+    }
+    
+    function nextQuestion () {
+        if (currentQuestion < questionList.length - 1) {
+            currentQuestion++;
+            displayQuestion();
+        } else {
+            loadScoreboard();
+        }
+    }
+    
+    function checkAnswer (event) {
+        event.preventDefault()
+        var chosenAnswer = event.target.value
+        if (questionList[currentQuestion].a[chosenAnswer].isCorrect) {
+            console.log("correct")
+            nextQuestion();
+        } else {
+            timeLeft -= 10;
+        }
+    }
+    
+        
     var timeInterval = setInterval( function() {
-        if (timeLeft >= 1) {
+        if (timeLeft >= 0) {
             timerDisplay.textContent = timeLeft;
             timeLeft--;
         } else {
@@ -105,18 +109,25 @@ function startTimer () {
             loadScoreboard();
         }
     }, 1000);
-}
+    
+    function loadScoreboard () {
+        clearInterval(timeInterval);
+        scoreInfo.textContent = "Your score is: " + timeLeft + "!";
+        // document.body.innerHTML = "";
+        body.appendChild(h1El);
+        body.appendChild(scoreInfo);
+    
+    }
 
-function startGame () {
+    viewScrBtn.addEventListener("click", function() {
+        console.log("view score button works")
+        loadScoreboard();
+    });
+
     displayQuestion ();
-    startTimer();
+    
 }
 
-
-function loadScoreboard () {
-    console.log("score")
-    window.open("./Assets/HTML/scoreboard.html", "_self");
-}
 
 // USER INTERACTIONS
 
@@ -127,9 +138,7 @@ startBtn.addEventListener("click", function() {
 });
 
 // user presses view high-score button
-viewScrBtn.addEventListener("click", function() {
-    console.log("view score button works")
-});
+
 
 // user presses submit high-score button
 
