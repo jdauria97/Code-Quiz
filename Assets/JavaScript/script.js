@@ -54,7 +54,6 @@ var score = 0
 // FUNCTIONS
 
 function displayQuestion () {
-    var timeLeft = 20;
     var question = document.querySelector("#questions");
     var options = document.querySelector("#options");
     question.textContent = questionList[currentQuestion].q;
@@ -83,9 +82,18 @@ function startGame () {
     displayQuestion ();
 }
 
-// function startTimer () {
-
-// }
+function startTimer () {
+    var timeLeft = 20;
+    var timeInterval = setInterval( function() {
+        if (timeLeft >= 1) {
+            timerDisplay.textContent = timeLeft;
+            timeLeft--;
+        } else {
+            clearInterval(timeInterval);
+            loadScoreboard();
+        }
+    }, 1000);
+}
 
 
 
