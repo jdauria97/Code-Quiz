@@ -10,7 +10,12 @@ var timerDisplay = document.querySelector('#time');
 
 //reset high-score button
 
+var currentQuestion = 0
+var score = 0
 
+var selectedAnswer = document.body.children[4].children[1].a;
+var question = document.querySelector("#questions");
+var options = document.querySelector("#options");
 
 // DATA
 
@@ -27,7 +32,7 @@ var questionList = [{
     q: "What is JavaScript used for?",
     a: [{ text: "To give the webpage interactive functionality", isCorrect: true },
     { text: "To style the aesthetics of the webpage", isCorrect: false },
-    { text: "To update you TikTok algorithm", isCorrect: false },
+    { text: "To update your TikTok algorithm", isCorrect: false },
     { text: "To manage cross-server databases", isCorrect: false }
     ]
 },
@@ -41,8 +46,6 @@ var questionList = [{
 },
 ];
 
-var currentQuestion = 0
-var score = 0
 
 
 // score
@@ -54,8 +57,7 @@ var score = 0
 // FUNCTIONS
 
 function displayQuestion () {
-    var question = document.querySelector("#questions");
-    var options = document.querySelector("#options");
+
     question.textContent = questionList[currentQuestion].q;
     options.innerHTML = "";
 
@@ -76,14 +78,33 @@ function displayQuestion () {
     }
 }
 
+function nextQuestion () {
+    if (currentQuestion < questionList.length - 1) {
+        currentQuestion++;
+        displayQuestion ();
+    } else {
+        loadScoreboard();
+    }
+}
+
+function checkAnswer () {
+    var chosenAnswer = parseInt(document.querySelector('input[name="a"]:checked').value);
+    if (questionList[currentQuestion].a[chosenAnswer].isCorrect) {
+        console.log("correct")
+        nextQuestion();
+    } else {
+        nextQuestion();
+    }
+}
 
 
 function startGame () {
     displayQuestion ();
+    startTimer();
 }
 
 function startTimer () {
-    var timeLeft = 20;
+    var timeLeft = 60;
     var timeInterval = setInterval( function() {
         if (timeLeft >= 1) {
             timerDisplay.textContent = timeLeft;
@@ -95,7 +116,9 @@ function startTimer () {
     }, 1000);
 }
 
-
+function loadScoreboard () {
+    console.log("score")
+}
 
 // USER INTERACTIONS
 
@@ -109,6 +132,10 @@ startBtn.addEventListener("click", function() {
 viewScrBtn.addEventListener("click", function() {
     console.log("view score button works")
 });
+
+selectedAnswer.addEventListener("click", function() {
+    console.log("selected answer");
+})
 
 // user presses submit high-score button
 
