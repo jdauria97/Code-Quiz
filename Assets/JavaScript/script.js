@@ -4,25 +4,28 @@
 var startBtn = document.querySelector('#startBtn');
 var timerDisplay = document.querySelector('#time');
 var currentQuestion = 0
-var score = 0
 var question = document.querySelector("#questions");
 var options = document.querySelector("#options");
 var timeLeft = 60;
 
 // dependencies for scoreboard page
 
-var scoreInput
-var initialsInput = document.createElement('input');
-initialsInput.setAttribute('type', 'text');
-initialsInput.placeholder = "Enter your initials."
-var submitBtn = document.createElement('button');
-submitBtn.textContent = 'Submit Score';
-var resetBtn
+
 var body = document.body;
 var h1El = document.createElement("h1");
-var scoreInfo = document.createElement("div");
+
 var lastScore = document.createElement("div");
 h1El.textContent = "High-Score List";
+
+var scoreInput= document.createElement("input");
+scoreInput.type = "text";
+scoreInput.name = "playerInput";
+scoreInput.placeholder = "Enter your name and score here, and hit 'enter'.";
+var scoreForm = document.createElement("form");
+scoreForm.name = "infoForm";
+scoreForm.method = "post";
+var scoreList = document.createElement("ul");
+var scoreCount = document.createElement("div");
 
 
 
@@ -111,25 +114,99 @@ function startGame () {
         }
     }, 1000);
     
+
+    // SCOREBOARD
+
     function loadScoreboard () {
         clearInterval(timeInterval);
         lastScore.textContent = "Your score is: " + timeLeft + "!";
         document.body.innerHTML = "";
         body.appendChild(h1El);
         body.appendChild(lastScore);
-        body.appendChild(initialsInput);
-        body.appendChild(submitBtn);
-        submitBtn.addEventListener("click", function(event) {
-            event.preventDefault();
-            if (initialsInput === "") {
-                alert("Please enter your initials to save score.")
-            } else {
-                localStorage.setItem("Initials", initialsInput.value);
-                localStorage.setItem("Score", timeLeft);
-            }
-        })
-        
-    
+        body.appendChild(scoreCount)
+        body.appendChild(scoreForm);
+        scoreForm.appendChild(scoreInput);
+        body.appendChild(scoreCount);
+        body.appendChild(scoreList);
+
+
+
+
+        var scores = [];
+
+        function renderScores() {
+
+        scoreList.innerHTML = "";
+        scoreCount.textContent = " Scores recorded: " + scores.length;
+
+        for (var i = 0; i < scores.length; i++) {
+            var score = scores[i];
+
+            var li = document.createElement("li");
+            li.textContent = score;
+            li.setAttribute("data-index", i);
+
+            var button = document.createElement("button");
+            button.textContent = "Remove Score";
+
+            li.appendChild(button);
+            scoreList.appendChild(li);
+        }
+        }
+
+        function init() {
+
+        var storedscores = JSON.parse(localStorage.getItem("scores"));
+
+        if (storedscores !== null) {
+            scores = storedscores;
+        }
+
+        renderScores();
+        }
+
+        function storescores() {
+
+        localStorage.setItem("scores", JSON.stringify(scores));
+        }
+
+        scoreForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        var scoreText = scoreInput.value.trim();
+
+        if (scoreText === "") {
+            return;
+        }
+
+        scores.push(scoreText);
+        scoreInput.value = "";
+
+        storescores();
+        renderScores();
+        });
+
+        scoreList.addEventListener("click", function(event) {
+        var element = event.target;
+
+        if (element.matches("button") === true) {
+
+            var index = element.parentElement.getAttribute("data-index");
+            scores.splice(index, 1);
+
+            storescores();
+            renderScores();
+        }
+        });
+
+
+        init()
+
+
+
+
+
+
     }
 
     displayQuestion ();
@@ -144,3 +221,4 @@ startBtn.addEventListener("click", function() {
     console.log("start button works")
     startGame ();
 });
+
