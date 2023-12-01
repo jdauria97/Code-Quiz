@@ -15,7 +15,7 @@ var timerDisplay = document.querySelector('#time');
 // DATA
 
 // list of questions
-var questions = [{
+var questionList = [{
     q: "Where is the JavaScript page linked?",
     a: [{ text: "In the 'head' element", isCorrect: false },
     { text: "At the bottom of the 'body' element", isCorrect: true },
@@ -41,9 +41,9 @@ var questions = [{
 },
 ];
 
-// list of answers
+var currentQuestion = 0
+var score = 0
 
-// timer
 
 // score
 
@@ -54,16 +54,38 @@ var questions = [{
 // FUNCTIONS
 
 function displayQuestion () {
+    var timeLeft = 20;
+    var question = document.querySelector("#questions");
+    var options = document.querySelector("#options");
+    question.textContent = questionList[currentQuestion].q;
+    options.innerHTML = "";
 
+    for (let i = 0; i < questionList[currentQuestion].a.length; i++) {
+        var choiceDiv = document.createElement("div");
+        var choice = document.createElement("input");
+        var choiceLabel = document.createElement("label");
+
+        choice.type = "button";
+        choice.name = "answer";
+        choice.value = i;
+
+        choiceLabel.textContent = questionList[currentQuestion].a[i].text;
+
+        choiceDiv.appendChild(choice);
+        choiceDiv.appendChild(choiceLabel);
+        options.appendChild(choiceDiv);
+    }
 }
+
+
 
 function startGame () {
-
+    displayQuestion ();
 }
 
-function startTimer () {
+// function startTimer () {
 
-}
+// }
 
 
 
@@ -72,6 +94,7 @@ function startTimer () {
 // user presses start button
 startBtn.addEventListener("click", function() {
     console.log("start button works")
+    startGame ();
 });
 
 // user presses view high-score button
