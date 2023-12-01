@@ -121,6 +121,7 @@ function startGame () {
 
 function loadScoreboard () {
     console.log("score")
+    window.open("./Assets/HTML/scoreboard.html", "_self");
 }
 
 // USER INTERACTIONS
