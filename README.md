@@ -18,6 +18,8 @@
 
 - A list of previous saved scores is visible, with the option to delete saved scores.
 
+-- View deployed page here: (https://jdauria97.github.io/Code-Quiz/)
+
 ![screenshot of deployed page](<Assets/Images/Screenshot 2023-12-01 034358.png>)
 
 ## Installation
