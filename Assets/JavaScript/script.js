@@ -13,23 +13,22 @@ var timeLeft = 60;
 
 var body = document.body;
 var h1El = document.createElement("h1");
-
 var lastScore = document.createElement("div");
 h1El.textContent = "High-Score List";
-
 var scoreInput= document.createElement("input");
 scoreInput.type = "text";
-scoreInput.name = "playerInput";
+scoreInput.id = "playerInput";
 scoreInput.placeholder = "Enter your name and score here, and hit 'enter'.";
 var scoreForm = document.createElement("form");
-scoreForm.name = "infoForm";
+scoreForm.id = "infoForm";
 scoreForm.method = "post";
 var scoreList = document.createElement("ul");
 var scoreCount = document.createElement("div");
+var refreshInfo = document.createElement("h2");
+refreshInfo.textContent = "Refresh page to play again!";
 
 
 
-// DATA
 
 // list of questions
 var questionList = [{
@@ -128,6 +127,7 @@ function startGame () {
         scoreForm.appendChild(scoreInput);
         body.appendChild(scoreCount);
         body.appendChild(scoreList);
+
 
 
 
